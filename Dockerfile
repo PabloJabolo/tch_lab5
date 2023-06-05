@@ -1,16 +1,3 @@
-# Laboratorium_5
-
-Paweł Jabłoniec
-
-Sprawozdanie - laboratorium 5
-
----
-
-### 1. Struktura aplikacji
-
-#### 1. Dockerfile
-
-```dockerfile
 #1. BUDOWANIE APLIKACJI
 # Wykorzystanie obrazu node w wersji 16-alpine jako bazowego - do budowania
 FROM node:16-alpine as builder
@@ -57,50 +44,3 @@ EXPOSE 80
 
 # Uruchomienie serwera apache w trybie FOREGROUND
 CMD ["httpd", "-D", "FOREGROUND"]
-
-```
-
-#### 2. App.js
-
-```js
-import "./App.css";
-export const ver = process.env.APP_VERSION;
-function App() {
-  // jeżeli adresem ip będzie http://localhost to zamień go na 192.168.0.1
-  const origin = window.location.origin;
-  const address = origin == "http://localhost" ? "192.168.0.1" : origin;
-
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Paweł Jabłoniec</h1>
-        <p>Hostname: {window.location.hostname}</p>
-        <p>Address: {address}</p>
-        <p>Version: {ver}</p>
-      </header>
-    </div>
-  );
-}
-
-export default App;
-```
-
----
-
-### 2. Uruchomienie aplikacji
-
-#### 1. Zbudowanie obrazu
-
-`docker build --no-cache -t lab5:v3.0 --build-arg APP_VERSION=3.0 . `
-
-
-#### 2. Uruchomienie kontenera na bazie utworzonego obrazu
-
-`docker run -e APP_VERSION=3.0 -d -p 80:80 --name lab5v3.0 lab5:v3.0`
-
-
-#### 3. Diagnostyka
-
-`docker logs lab5v3.0`
-
